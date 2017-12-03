@@ -1,0 +1,16 @@
+{
+  "name": "date-picker",
+  "version": "1.0.0",
+  "description": "A datepicker webcomponent",
+  "main": "date-picker.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc build tsconfig.json"
+  },
+  "keywords": [
+    "datepicker",
+    "webcomponent"
+  ],
+  "author": "Yann Lerjen",
+  "license": "MIT"
+}

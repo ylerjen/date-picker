@@ -1,0 +1,69 @@
+:root {
+    --color-day-name-bg: rgb(132, 201, 247);
+    --color-day-bg: lightgrey;
+    --color-day-weekend-bg: rgb(168, 199, 170);
+    --color-selector-bg-hover: gold;
+}
+
+$namespace: "dp";
+
+.#{$namespace} {
+    border: 1px solid black;
+    border-radius: 5px;
+    display: inline-block;
+
+    table {
+        border-collapse: collapse;
+        border-width: 1px 0;
+        width: 100%;
+    }
+}
+
+.#{$namespace}__button_row {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+
+    >button {
+        flex-grow: 1;
+    }
+}
+
+.#{$namespace}__button {
+    border: 0 none;
+    cursor: pointer;
+    display: inline-block;
+    background-color: lightblue;
+
+    &:hover {
+        background-color: darkcyan;
+        
+    }
+}
+
+.#{$namespace}-days__table {
+    th,
+    td {
+        border: 1px solid;
+        border-collapse: collapse;
+        text-align: center;
+        padding: .1em .2em;
+    }
+}
+
+.#{$namespace}__day-name {
+    background-color: var(--color-day-name-bg);
+}
+
+.#{$namespace}__day {
+    background-color: var(--color-day-bg);
+    cursor: pointer;
+}
+
+.#{$namespace}__day:hover {
+    background-color: var(--color-selector-bg-hover);
+}
+
+.#{$namespace}__weekend-day {
+    background-color: var(--color-day-weekend-bg);
+}

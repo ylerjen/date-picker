@@ -1,0 +1,51 @@
+:root {
+  --color-day-name-bg: rgb(132, 201, 247);
+  --color-day-bg: lightgrey;
+  --color-day-weekend-bg: rgb(168, 199, 170);
+  --color-selector-bg-hover: gold; }
+
+.dp {
+  border: 1px solid black;
+  border-radius: 5px;
+  display: inline-block; }
+  .dp table {
+    border-width: 1px 0;
+    border-collapse: collapse;
+    width: 100%; }
+
+.dp__button_row {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch; }
+  .dp__button_row > button {
+    flex-grow: 1; }
+
+.dp__button {
+  border: 0 none;
+  cursor: pointer;
+  display: inline-block;
+  background-color: lightblue; }
+  .dp__button:hover {
+    background-color: darkcyan; }
+
+.dp-days__table th,
+.dp-days__table td {
+  border: 1px solid;
+  border-collapse: collapse;
+  text-align: center;
+  padding: .1em .2em; }
+
+.dp__day-name {
+  background-color: var(--color-day-name-bg); }
+
+.dp__day {
+  background-color: var(--color-day-bg);
+  cursor: pointer; }
+
+.dp__day:hover {
+  background-color: var(--color-selector-bg-hover); }
+
+.dp__weekend-day {
+  background-color: var(--color-day-weekend-bg); }
+
+/*# sourceMappingURL=date-picker.css.map */
