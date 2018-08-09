@@ -52,6 +52,7 @@
         set refDate(val: Date) {
             this._refDate = val;
             this.renderFullCalendar();
+            console.log(`refDate has changed to ${this._refDate}`)
         }
         get refDate(): Date {
             return this._refDate;
@@ -137,9 +138,8 @@
         }
 
         renderYears() {
-            console.log('renderYears');
             // empty container
-            const yearListWrapper = this.shadowRoot.querySelector(`.${classNS}-years__year-list`);
+            const yearListWrapper: HTMLTableElement = this.shadowRoot.querySelector(`.${classNS}-years__year-list`);
             yearListWrapper.innerHTML = "";
 
             // create years table
@@ -164,16 +164,14 @@
 
             // render table
             for (let rowIdx = 0, rowIdxMax = yearsArray.length; rowIdx < rowIdxMax; rowIdx++) {
-                const weekEl = document.createElement('tr');
+                const weekEl = yearListWrapper.insertRow();
                 for (let cellIdx = 0, cellIdxMax = yearsArray[rowIdx].length; cellIdx < cellIdxMax; cellIdx++) {
-                    const yearCell = document.createElement('td');
+                    const yearCell = weekEl.insertCell();
                     const yearBtn = document.createElement('button');
                     yearBtn.className = 'btn-selector';
                     yearCell.appendChild(yearBtn); 
                     yearBtn.innerText = yearsArray[rowIdx][cellIdx].toString();
-                    weekEl.appendChild(yearCell);
                 }
-                yearListWrapper.appendChild(weekEl);
             }
         }
 
@@ -203,14 +201,21 @@
         }
 
         gotoYears(year: number) {
+            const d = this.refDate;
+            d.setFullYear(year);
+            this.refDate = d;
             console.log(`goto year ${year}`);
         }
 
         gotoNextMonth() {
-            console.log('goto next month');
+            const d = this.refDate;
+            d.setMonth(d.getMonth()+1);
+            this.refDate = d;
         }
         gotoPreviousMonth() {
-            console.log('goto previous month');
+            const d = this.refDate;
+            d.setMonth(d.getMonth()-1);
+            this.refDate = d;
         }
 
         setTodayValue() {
