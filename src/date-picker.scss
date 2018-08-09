@@ -7,15 +7,61 @@
 
 $namespace: "dp";
 
+
+.#{$namespace}__views {
+    overflow: hidden;
+    position: relative;
+    width: 188px;
+
+    header {
+        line-height: 2em;
+    }
+}
+
+.#{$namespace}__months-view,
+.#{$namespace}__years-view {
+    background-color: white;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transition: transform .5s cubic-bezier(0.47, 0, 0.745, 0.715);
+
+
+    &.hide-me {
+        transform: scale(10);
+        opacity: 0;
+        display: none;
+    }
+}
+
+.#{$namespace}__days-view {
+    // position: relative;
+}
+
+.#{$namespace}__months-view {
+    // position: relative;
+}
+
+.#{$namespace}__years-view {
+    // position: relative;
+}
+
 .#{$namespace} {
-    border: 1px solid black;
+    box-shadow: 0 0 10px 4px lightgrey;
     border-radius: 5px;
     display: inline-block;
 
     table {
         border-collapse: collapse;
-        border-width: 1px 0;
+        text-align: center;
+        height: 100%;
         width: 100%;
+    }
+    
+    td,
+    th {
+        padding: .1em .2em;
+        text-align: center;
     }
 }
 
@@ -33,21 +79,9 @@ $namespace: "dp";
     border: 0 none;
     cursor: pointer;
     display: inline-block;
-    background-color: lightblue;
 
     &:hover {
-        background-color: darkcyan;
-        
-    }
-}
-
-.#{$namespace}-days__table {
-    th,
-    td {
-        border: 1px solid;
-        border-collapse: collapse;
-        text-align: center;
-        padding: .1em .2em;
+        background-color: rgb(211, 211, 211);
     }
 }
 
