@@ -34,7 +34,7 @@
     class DatePicker extends HTMLElement {
         
         private _refDate: Date = new Date();
-        public weekList: HTMLElement;
+        public weekList: HTMLTableSectionElement;
         public monthNameDisplay: HTMLElement;
         public calendarEl: HTMLElement;
 
@@ -123,18 +123,16 @@
             this.weekList.innerHTML = "";
             // create calendar
             for (let rowIdx = 0, rowIdxMax = daysArray.length; rowIdx < rowIdxMax; rowIdx++) {
-                const weekEl = document.createElement('tr');
+                const weekEl = this.weekList.insertRow();
                 for (let cellIdx = 0, cellIdxMax = daysArray[rowIdx].length; cellIdx < cellIdxMax; cellIdx++) {
-                    const dayEl = document.createElement('td');
+                    const dayEl = weekEl.insertCell();
                     const dayBtn = document.createElement('button');
                     const curDay = daysArray[rowIdx][cellIdx].toString();
                     dayBtn.innerText = curDay;
                     dayBtn.className = 'btn-selector';
                     dayBtn.setAttribute('data-date', curDay);
                     dayEl.appendChild(dayBtn);
-                    weekEl.appendChild(dayEl);
                 }
-                this.weekList.appendChild(weekEl);
             }
         }
 
