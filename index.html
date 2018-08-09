@@ -17,69 +17,70 @@
     <template id="tpl-date-picker">
         <link rel="stylesheet" href="dist/date-picker.css">
         <section class="dp">
-            <section class="dp__years-view">
-                <table class="dp-years__year-list">
-                </table>
-            </section>
-            <section class="dp__months-view">
-                <header>
-                    <nav class="dp-days__nav dp__button_row">
-                        <button class="dp-days__nav-prev dp__button">&lt; Prev</button>
-                        <button class="dp-days__nav-switch dp__button dp-days__nav-year-display"><!-- content generated --></button>
-                        <button class="dp-days__nav-next dp__button">Next &gt;</button>
-                    </nav>
-                </header>
-                <table class="dp-month__list">
-                    <tr>
-                        <td><a class="dp-month__name dp__selector">Jan</a></td>
-                        <td><a class="dp-month__name dp__selector">Feb</a></td>
-                        <td><a class="dp-month__name dp__selector">Mar</a></td>
-                        <td><a class="dp-month__name dp__selector">Apr</a></td>
-                    </tr>
-                    <tr>
-                        <td><a class="dp-month__name dp__selector">May</a></td>
-                        <td><a class="dp-month__name dp__selector">Jun</a></td>
-                        <td><a class="dp-month__name dp__selector">Jul</a></td>
-                        <td><a class="dp-month__name dp__selector">Aug</a></td>
-                    </tr>
-                    <tr>
-                        <td><a class="dp-month__name dp__selector">Sept</a></td>
-                        <td><a class="dp-month__name dp__selector">Oct</a></td>
-                        <td><a class="dp-month__name dp__selector">Nov</a></td>
-                        <td><a class="dp-month__name dp__selector">Dec</a></td>
-                    </tr>
-                </table>
-            </section>
-            <section class="dp__days-view">
-                <header class="dp-days__header">
-                    <nav class="dp-days__nav dp__button_row">
-                        <button class="dp-days__nav-prev dp__button">&lt; Prev</button>
-                        <button class="dp-days__nav-switch dp__button dp-days__nav-month-display"><!-- content generated --></button>
-                        <button class="dp-days__nav-next dp__button">Next &gt;</button>
-                    </nav>
-                </header>
-                <table class="dp-days__table">
-                    <thead class="dp-days__day-name-list">
+            <div class="dp__views">
+                <section class="dp__years-view hide-me">
+                    <table class="dp-years__year-list">
+                    </table>
+                </section>
+                <section class="dp__months-view hide-me">
+                    <header>
+                        <nav class="dp-months__nav dp__button_row">
+                            <button class="dp-months__nav-prev dp__button">&#8592;</button>
+                            <button class="dp-months__nav-switch dp__button dp-months__nav-year-display"><!-- content generated --></button>
+                            <button class="dp-months__nav-next dp__button">&#8594;</button>
+                        </nav>
+                    </header>
+                    <table class="dp-month__list">
                         <tr>
-                            <th class="dp-days__day-name">Mo</th>
-                            <th class="dp-days__day-name">Tu</th>
-                            <th class="dp-days__day-name">We</th>
-                            <th class="dp-days__day-name">Th</th>
-                            <th class="dp-days__day-name">Fr</th>
-                            <th class="dp-days__day-name">Sa</th>
-                            <th class="dp-days__day-name">Su</th>
+                            <td><button class="dp-month__name dp__selector">Jan</button></td>
+                            <td><button class="dp-month__name dp__selector">Feb</button></td>
+                            <td><button class="dp-month__name dp__selector">Mar</button></td>
+                            <td><button class="dp-month__name dp__selector">Apr</button></td>
                         </tr>
-                    </thead>
-                    <tbody class="dp-days__list"><!-- content generated --></tbody>
-                </table>
-            </section>
+                        <tr>
+                            <td><button class="dp-month__name dp__selector">May</button></td>
+                            <td><button class="dp-month__name dp__selector">Jun</button></td>
+                            <td><button class="dp-month__name dp__selector">Jul</button></td>
+                            <td><button class="dp-month__name dp__selector">Aug</button></td>
+                        </tr>
+                        <tr>
+                            <td><button class="dp-month__name dp__selector">Sept</button></td>
+                            <td><button class="dp-month__name dp__selector">Oct</button></td>
+                            <td><button class="dp-month__name dp__selector">Nov</button></td>
+                            <td><button class="dp-month__name dp__selector">Dec</button></td>
+                        </tr>
+                    </table>
+                </section>
+                <section class="dp__days-view">
+                    <header class="dp-days__header">
+                        <nav class="dp-days__nav dp__button_row">
+                            <button class="dp-days__nav-prev dp__button">&lt; Prev</button>
+                            <button class="dp-days__nav-switch dp__button dp-days__nav-month-display"><!-- content generated --></button>
+                            <button class="dp-days__nav-next dp__button">Next &gt;</button>
+                        </nav>
+                    </header>
+                    <table class="dp-days__table">
+                        <thead class="dp-days__day-name-list">
+                            <tr>
+                                <th class="dp-days__day-name">Mo</th>
+                                <th class="dp-days__day-name">Tu</th>
+                                <th class="dp-days__day-name">We</th>
+                                <th class="dp-days__day-name">Th</th>
+                                <th class="dp-days__day-name">Fr</th>
+                                <th class="dp-days__day-name">Sa</th>
+                                <th class="dp-days__day-name">Su</th>
+                            </tr>
+                        </thead>
+                        <tbody class="dp-days__list"><!-- content generated --></tbody>
+                    </table>
+                </section>
+            </div>
             <footer class="dp__footer dp__button_row">
                 <button class="dp__button">ok</button>
-                <button class="dp__button">today</button>
+                <button class="dp__button dp__today-selector">today</button>
             </footer>
         </section>
     </template>
     <script src="dist/date-picker.js"></script>
 </body>
-
 </html>
