@@ -1,29 +1,29 @@
-(function() {
-    
-    enum DaysNameEnum {
-        Monday = 1,
-        Thuesday = 2,
-        Wednesday = 3,
-        Thursday = 4,
-        Friday = 5,
-        Saturday = 6,
-        Sunday = 0
-    }
+enum DaysNameEnum {
+    Monday = 1,
+    Thuesday = 2,
+    Wednesday = 3,
+    Thursday = 4,
+    Friday = 5,
+    Saturday = 6,
+    Sunday = 0
+}
 
-    enum MonthEnum {
-        January = 1,
-        February = 2,
-        March = 3,
-        April = 4,
-        May = 5,
-        June = 6,
-        July = 7,
-        August = 8,
-        September = 9,
-        October = 10,
-        November = 11,
-        December = 12
-    }
+enum MonthEnum {
+    January = 1,
+    February = 2,
+    March = 3,
+    April = 4,
+    May = 5,
+    June = 6,
+    July = 7,
+    August = 8,
+    September = 9,
+    October = 10,
+    November = 11,
+    December = 12
+}
+
+(function() {
 
     const elementName = "date-picker";
     const classNS = "dp";
@@ -37,6 +37,9 @@
         public weekList: HTMLTableSectionElement;
         public monthNameDisplay: HTMLElement;
         public calendarEl: HTMLElement;
+        daysView: any;
+        monthsView: HTMLElement;
+        yearsView: any;
 
         constructor() {
             super();
@@ -47,6 +50,9 @@
             this.weekList = shadowRoot.querySelector(`.${classNS}-days__list`);
             this.calendarEl = shadowRoot.querySelector(`.${classNS}`);
             this.monthNameDisplay = shadowRoot.querySelector(yearDisplaySelector);
+            this.daysView = shadowRoot.querySelector(`.${classNS}__days-view`);
+            this.monthsView = shadowRoot.querySelector(`.${classNS}__months-view`);
+            this.yearsView = shadowRoot.querySelector(`.${classNS}__years-view`);
         }
 
         set refDate(val: Date) {
@@ -139,7 +145,7 @@
 
         renderYears() {
             // empty container
-            const yearListWrapper: HTMLTableElement = this.shadowRoot.querySelector(`.${classNS}-years__year-list`);
+            const yearListWrapper: HTMLTableElement = this.shadowRoot.querySelector(`.${classNS}-years__list`);
             yearListWrapper.innerHTML = "";
 
             // create years table
@@ -148,7 +154,7 @@
             let curPos = 1;
             const yearsArray: Array<Array<number>> = [];
             let rowArray: Array<number> = [];
-            while (curPos <= 12) {
+            while (curPos <= 18) {
                 if (firstYear < 0) {
                     firstYear++;
                     continue;
@@ -168,9 +174,11 @@
                 for (let cellIdx = 0, cellIdxMax = yearsArray[rowIdx].length; cellIdx < cellIdxMax; cellIdx++) {
                     const yearCell = weekEl.insertCell();
                     const yearBtn = document.createElement('button');
+                    const curYear = yearsArray[rowIdx][cellIdx].toString();
                     yearBtn.className = 'btn-selector';
+                    yearBtn.setAttribute('data-date', curYear)
                     yearCell.appendChild(yearBtn); 
-                    yearBtn.innerText = yearsArray[rowIdx][cellIdx].toString();
+                    yearBtn.innerText = curYear;
                 }
             }
         }
@@ -232,6 +240,59 @@
             }
             const day = btn.getAttribute('data-date');
             console.log(day);
+            const d = this.refDate;
+            d.setDate(+day);
+            this.refDate = d;
+        }
+
+        onClickAMonth(evt: Event) {
+            evt.preventDefault();
+
+            const btn = evt.srcElement;
+            if (!btn.classList.contains('btn-selector'))
+            {
+                return;
+            }
+            const m = btn.getAttribute('data-date');
+            console.log(m);
+            const d = this.refDate;
+            d.setMonth(+m-1);
+            this.refDate = d;
+            this.gotoDayView();
+        }
+
+        onClickAYear(evt: Event) {
+            evt.preventDefault();
+
+            const btn = evt.srcElement;
+            if (!btn.classList.contains('btn-selector'))
+            {
+                return;
+            }
+            const year = btn.getAttribute('data-date');
+            console.log(year);
+            const d = this.refDate;
+            d.setFullYear(+year);
+            this.refDate = d;
+            this.gotoMonthView();
+        }
+
+        private gotoDayView() {
+            this.monthsView.classList.add('hide-me');
+            this.yearsView.classList.add('hide-me');
+        }
+        onClickGotoMonthView() {
+            console.log('Goto month view');
+            this.gotoMonthView();
+        }
+        private gotoMonthView() {
+            this.monthsView.classList.remove('hide-me');
+            this.yearsView.classList.add('hide-me');
+        }
+        onClickGotoYearView() {
+            console.log('Goto year view');
+            this.monthsView.classList.add('hide-me');
+            this.yearsView.classList.remove('hide-me');
         }
 
         static dateToSimpleString(src: Date): string {
@@ -262,6 +323,10 @@
             this.calendarEl.querySelector(`.${classNS}-days__nav-next`).addEventListener('click', this.gotoNextMonth.bind(this), false);
             this.calendarEl.querySelector(`.${classNS}-days__nav-prev`).addEventListener('click', this.gotoPreviousMonth.bind(this), false);
             this.calendarEl.querySelector(`.${classNS}-days__list`).addEventListener('click', this.onClickADay.bind(this), false);
+            this.calendarEl.querySelector(`.${classNS}-month__list`).addEventListener('click', this.onClickAMonth.bind(this), false);
+            this.calendarEl.querySelector(`.${classNS}-years__list`).addEventListener('click', this.onClickAYear.bind(this), false);
+            this.calendarEl.querySelector(`.${classNS}-days__nav-month-display`).addEventListener('click', this.onClickGotoMonthView.bind(this), false);
+            this.calendarEl.querySelector(`.${classNS}-months__nav-year-display`).addEventListener('click', this.onClickGotoYearView.bind(this), false);
         }
 
         private removeListeners() {

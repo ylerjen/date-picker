@@ -1,11 +1,11 @@
+$namespace: "dp";
+
 :root {
     --color-day-name-bg: rgb(132, 201, 247);
     --color-day-bg: lightgrey;
     --color-day-weekend-bg: rgb(168, 199, 170);
     --color-selector-bg-hover: gold;
 }
-
-$namespace: "dp";
 
 
 .#{$namespace}__views {
@@ -100,4 +100,16 @@ $namespace: "dp";
 
 .#{$namespace}__weekend-day {
     background-color: var(--color-day-weekend-bg);
+}
+
+.#{$namespace}-day__name,
+.#{$namespace}-month__name,
+.#{$namespace}-year__name {
+
+    padding: 0;
+
+    .btn-selector {
+        margin: 0;
+    }
+
 }
