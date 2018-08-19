@@ -1,73 +1,56 @@
-enum DaysNameEnum {
-    Monday = 1,
-    Thuesday = 2,
-    Wednesday = 3,
-    Thursday = 4,
-    Friday = 5,
-    Saturday = 6,
-    Sunday = 0
-}
+const calendarTpl = require("./date-picker-tpl.html");
 
-enum MonthEnum {
-    January = 1,
-    February = 2,
-    March = 3,
-    April = 4,
-    May = 5,
-    June = 6,
-    July = 7,
-    August = 8,
-    September = 9,
-    October = 10,
-    November = 11,
-    December = 12
-}
+// enum DaysNameEnum {
+//     Monday = 1,
+//     Thuesday = 2,
+//     Wednesday = 3,
+//     Thursday = 4,
+//     Friday = 5,
+//     Saturday = 6,
+//     Sunday = 0
+// }
+
+const MonthEnum = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December' 
+];
 
 (function() {
-
     const elementName = "date-picker";
     const classNS = "dp";
-    const calendarTpl = document.getElementById('tpl-date-picker') as HTMLTemplateElement;
     const yearDisplaySelector = `.${classNS}-days__nav-month-display`;
-    const initDateAttrName = 'init-date';
 
-    class DatePicker extends HTMLElement {
-        
-        private _refDate: Date = new Date();
-        public weekList: HTMLTableSectionElement;
-        public monthNameDisplay: HTMLElement;
-        public calendarEl: HTMLElement;
-        daysView: any;
-        monthsView: HTMLElement;
-        yearsView: any;
-
+    class DatePicker extends HTMLInputElement {
         constructor() {
             super();
             console.log('ctor called');
             // create datepicker from template
-            const shadowRoot = this.attachShadow({mode: 'open'});
-            shadowRoot.appendChild(calendarTpl.content.cloneNode(true));
-            this.weekList = shadowRoot.querySelector(`.${classNS}-days__list`);
-            this.calendarEl = shadowRoot.querySelector(`.${classNS}`);
-            this.monthNameDisplay = shadowRoot.querySelector(yearDisplaySelector);
-            this.daysView = shadowRoot.querySelector(`.${classNS}__days-view`);
-            this.monthsView = shadowRoot.querySelector(`.${classNS}__months-view`);
-            this.yearsView = shadowRoot.querySelector(`.${classNS}__years-view`);
+            this._refDate = new Date();
         }
 
-        set refDate(val: Date) {
+        set refDate(val) {
             this._refDate = val;
             this.renderFullCalendar();
             console.log(`refDate has changed to ${this._refDate}`)
         }
-        get refDate(): Date {
+        get refDate() {
             return this._refDate;
         }
 
-        get refDateString(): string {
+        get refDateString() {
             return this.refDate.toLocaleDateString();
         }
-        set refDateString(val: string) {
+        set refDateString(val) {
             let d = new Date(val);
             if (isNaN(d.getTime())) {
                 d = new Date();
@@ -75,7 +58,7 @@ enum MonthEnum {
             this.refDate = d;
         }
 
-        setChoosenDate(choosenDate: Date) {
+        setChoosenDate(choosenDate) {
             this.refDate = choosenDate;
             console.log(`choose date : ${this.refDateString}`);
             this.setAttribute('data-value', this.refDateString);
@@ -84,8 +67,17 @@ enum MonthEnum {
         connectedCallback() {
             console.info('connectedCallback');
             // get attributes value
-            this.refDateString = this.getAttribute(initDateAttrName) ? this.getAttribute(initDateAttrName) : (new Date()).toString();
             console.log(this.refDate);
+            this.dpWrapper = document.createElement('div');
+            this.dpWrapper.setAttribute('hidden','hidden');
+            this.insertAdjacentElement('afterend', this.dpWrapper);
+            this.dpWrapper.innerHTML = calendarTpl;
+            this.weekList = this.dpWrapper.querySelector(`.${classNS}-days__list`);
+            this.calendarEl = this.dpWrapper.querySelector(`.${classNS}`);
+            this.monthNameDisplay = this.dpWrapper.querySelector(yearDisplaySelector);
+            this.daysView = this.dpWrapper.querySelector(`.${classNS}__days-view`);
+            this.monthsView = this.dpWrapper.querySelector(`.${classNS}__months-view`);
+            this.yearsView = this.dpWrapper.querySelector(`.${classNS}__years-view`);
             this.addListeners();
         }
 
@@ -94,7 +86,7 @@ enum MonthEnum {
             this.removeListeners();
         }
         
-        attributeChangedCallback(attrName: string, oldVal: string, newVal: string) {
+        attributeChangedCallback(attrName, oldVal, newVal) {
             console.info('attributeChangedCallback',attrName, oldVal, newVal);
         }
 
@@ -103,12 +95,12 @@ enum MonthEnum {
             const y = this.refDate.getFullYear();
             const firstMonthDay = new Date(`${y}-${m}-01`);
             const firstDayNb = firstMonthDay.getDay();
-            const monthDetail: Array<Array<Number>> = [];
+            const monthDetail = [];
             const daysInCurMonth = DatePicker.daysInMonth(m, y);
             let curDay = 1;
             let weekNb = 1;
             while (curDay <= daysInCurMonth) {
-                let curWeek: Array<Number> = [];
+                let curWeek = [];
                 for (let i = 1; i <= 7; i++) {
                     if (weekNb === 1 && firstDayNb > i) {
                         curWeek.push(0);
@@ -125,7 +117,7 @@ enum MonthEnum {
             return monthDetail;
         }
         
-        renderDays(daysArray: Array<Array<Number>>) {
+        renderDays(daysArray) {
             // empty existing children
             this.weekList.innerHTML = "";
             // create calendar
@@ -145,15 +137,15 @@ enum MonthEnum {
 
         renderYears() {
             // empty container
-            const yearListWrapper: HTMLTableElement = this.shadowRoot.querySelector(`.${classNS}-years__list`);
+            const yearListWrapper = this.this.dpWrapper.querySelector(`.${classNS}-years__list`);
             yearListWrapper.innerHTML = "";
 
             // create years table
             const y = this.refDate.getFullYear();
             let firstYear = y-6;
             let curPos = 1;
-            const yearsArray: Array<Array<number>> = [];
-            let rowArray: Array<number> = [];
+            const yearsArray = [];
+            let rowArray = [];
             while (curPos <= 18) {
                 if (firstYear < 0) {
                     firstYear++;
@@ -184,13 +176,13 @@ enum MonthEnum {
         }
 
         renderCurrentMonthTitle() {
-            let m = this.refDate.getMonth()+1;
+            let m = this.refDate.getMonth();
             let monthName = MonthEnum[m];
             this.monthNameDisplay.innerHTML = monthName;
         }
 
         renderCurrentYearTitle() {
-            this.shadowRoot.querySelector(`.${classNS}-months__nav-year-display`).innerHTML = this.refDate.getFullYear().toString();
+            this.this.dpWrapper.querySelector(`.${classNS}-months__nav-year-display`).innerHTML = this.refDate.getFullYear().toString();
         }
 
         renderFullCalendar() {
@@ -201,14 +193,14 @@ enum MonthEnum {
             this.renderCurrentYearTitle();
         }
         
-        onCalendarClick(evt: Event) {
+        onCalendarClick(evt) {
             const el = evt.srcElement;
             if (el.className.indexOf(`${classNS}__day`) >= 0) {
                 console.log('its a day');
             }
         }
 
-        gotoYears(year: number) {
+        gotoYears(year) {
             const d = this.refDate;
             d.setFullYear(year);
             this.refDate = d;
@@ -230,7 +222,7 @@ enum MonthEnum {
             this.setChoosenDate(new Date());
         }
 
-        onClickADay(evt: Event) {
+        onClickADay(evt) {
             evt.preventDefault();
 
             const btn = evt.srcElement;
@@ -245,7 +237,7 @@ enum MonthEnum {
             this.refDate = d;
         }
 
-        onClickAMonth(evt: Event) {
+        onClickAMonth(evt) {
             evt.preventDefault();
 
             const btn = evt.srcElement;
@@ -261,7 +253,7 @@ enum MonthEnum {
             this.gotoDayView();
         }
 
-        onClickAYear(evt: Event) {
+        onClickAYear(evt) {
             evt.preventDefault();
 
             const btn = evt.srcElement;
@@ -277,7 +269,7 @@ enum MonthEnum {
             this.gotoMonthView();
         }
 
-        private gotoDayView() {
+        gotoDayView() {
             this.monthsView.classList.add('hide-me');
             this.yearsView.classList.add('hide-me');
         }
@@ -285,7 +277,7 @@ enum MonthEnum {
             console.log('Goto month view');
             this.gotoMonthView();
         }
-        private gotoMonthView() {
+        gotoMonthView() {
             this.monthsView.classList.remove('hide-me');
             this.yearsView.classList.add('hide-me');
         }
@@ -294,8 +286,14 @@ enum MonthEnum {
             this.monthsView.classList.add('hide-me');
             this.yearsView.classList.remove('hide-me');
         }
+        showDp() {
+            this.dpWrapper.removeAttribute('hidden','hidden');
+        }
+        hideDp() {
+            this.dpWrapper.setAttribute('hidden','hidden');
+        }
 
-        static dateToSimpleString(src: Date): string {
+        static dateToSimpleString(src) {
             if (!src) {
                 return "";
             }
@@ -309,16 +307,17 @@ enum MonthEnum {
          * Transform a date string to a Date object
          * @param dateStr - should be a date string with the format dd/mm/yyyy
          */
-        static stringToDate(dateStr: string): Date {
+        static stringToDate(dateStr) {
             return new Date(dateStr);
         }
         
-        static daysInMonth(idxMonth: number, idxYear: number)
+        static daysInMonth(idxMonth, idxYear)
         {
             return new Date(idxYear, idxMonth, 0).getDate();
         }
 
-        private addListeners() {
+        addListeners() {
+            this.addEventListener('focus', this.showDp);
             this.calendarEl.querySelector(`.${classNS}__today-selector`).addEventListener('click', this.setTodayValue.bind(this), false);
             this.calendarEl.querySelector(`.${classNS}-days__nav-next`).addEventListener('click', this.gotoNextMonth.bind(this), false);
             this.calendarEl.querySelector(`.${classNS}-days__nav-prev`).addEventListener('click', this.gotoPreviousMonth.bind(this), false);
@@ -329,10 +328,10 @@ enum MonthEnum {
             this.calendarEl.querySelector(`.${classNS}-months__nav-year-display`).addEventListener('click', this.onClickGotoYearView.bind(this), false);
         }
 
-        private removeListeners() {
+        removeListeners() {
             this.calendarEl.removeEventListener('click', this.onCalendarClick);
         }
     }
     
-    customElements.define(elementName, DatePicker);
+    customElements.define(elementName, DatePicker, { extends: 'input'});
 })();

@@ -6,81 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>WebComp</title>
+    <script src="node_modules/document-register-element/build/document-register-element.js"></script>
 </head>
 
 <body>
     <div>
         <label for="myDate">Choose a date</label>
-        <input type="text" data-is="date-picker" />
-        <date-picker ref-date="12/31/2022"></date-picker>
+        <input type="text" is="date-picker" ref-date="12/31/2022" />
     </div>
-    <template id="tpl-date-picker">
-        <link rel="stylesheet" href="dist/date-picker.css">
-        <section class="dp">
-            <div class="dp__views">
-                <section class="dp__years-view hide-me">
-                    <table class="dp-years__list">
-                    </table>
-                </section>
-                <section class="dp__months-view hide-me">
-                    <header>
-                        <nav class="dp-months__nav dp__button_row">
-                            <button class="dp-months__nav-prev dp__button">&#8592;</button>
-                            <button class="dp-months__nav-switch dp__button dp-months__nav-year-display"><!-- content generated --></button>
-                            <button class="dp-months__nav-next dp__button">&#8594;</button>
-                        </nav>
-                    </header>
-                    <table class="dp-month__list">
-                        <tr>
-                            <td><button class="dp-month__name btn-selector" data-date="1">Jan</button></td>
-                            <td><button class="dp-month__name btn-selector" data-date="2">Feb</button></td>
-                            <td><button class="dp-month__name btn-selector" data-date="3">Mar</button></td>
-                            <td><button class="dp-month__name btn-selector" data-date="4">Apr</button></td>
-                        </tr>
-                        <tr>
-                            <td><button class="dp-month__name btn-selector" data-date="5">May</button></td>
-                            <td><button class="dp-month__name btn-selector" data-date="6">Jun</button></td>
-                            <td><button class="dp-month__name btn-selector" data-date="7">Jul</button></td>
-                            <td><button class="dp-month__name btn-selector" data-date="8">Aug</button></td>
-                        </tr>
-                        <tr>
-                            <td><button class="dp-month__name btn-selector" data-date="9">Sept</button></td>
-                            <td><button class="dp-month__name btn-selector" data-date="10">Oct</button></td>
-                            <td><button class="dp-month__name btn-selector" data-date="11">Nov</button></td>
-                            <td><button class="dp-month__name btn-selector" data-date="12">Dec</button></td>
-                        </tr>
-                    </table>
-                </section>
-                <section class="dp__days-view">
-                    <header class="dp-days__header">
-                        <nav class="dp-days__nav dp__button_row">
-                            <button class="dp-days__nav-prev dp__button">&lt; Prev</button>
-                            <button class="dp-days__nav-switch dp__button dp-days__nav-month-display"><!-- content generated --></button>
-                            <button class="dp-days__nav-next dp__button">Next &gt;</button>
-                        </nav>
-                    </header>
-                    <table class="dp-days__table">
-                        <thead class="dp-days__day-name-list">
-                            <tr>
-                                <th class="dp-days__day-name">Mo</th>
-                                <th class="dp-days__day-name">Tu</th>
-                                <th class="dp-days__day-name">We</th>
-                                <th class="dp-days__day-name">Th</th>
-                                <th class="dp-days__day-name">Fr</th>
-                                <th class="dp-days__day-name">Sa</th>
-                                <th class="dp-days__day-name">Su</th>
-                            </tr>
-                        </thead>
-                        <tbody class="dp-days__list"><!-- content generated --></tbody>
-                    </table>
-                </section>
-            </div>
-            <footer class="dp__footer dp__button_row">
-                <button class="dp__button">ok</button>
-                <button class="dp__button dp__today-selector">today</button>
-            </footer>
-        </section>
-    </template>
     <script src="dist/date-picker.js"></script>
 </body>
 </html>
